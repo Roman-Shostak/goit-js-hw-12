@@ -42,6 +42,17 @@ function showEndOfResults() {
   showInfo("We're sorry, but you've reached the end of search results.");
 }
 
+function scrollToNewImages() {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
+}
+
 async function onSearch(event) {
   event.preventDefault();
 
@@ -96,6 +107,7 @@ async function onLoadMore() {
     const data = await getImagesByQuery(query, page);
 
     createGallery(data.hits);
+    scrollToNewImages();
 
     if (page < totalPages) {
       showLoadMoreButton();
