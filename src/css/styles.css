@@ -153,13 +153,43 @@ img {
   line-height: 2;
 }
 
+/* ---------- Load more ---------- */
+
+.load-more {
+  display: none;
+  min-width: 125px;
+  height: 40px;
+  margin: 32px auto 0;
+  padding: 8px 16px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--color-white);
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 250ms ease;
+}
+
+.load-more.is-visible {
+  display: block;
+}
+
+.load-more:hover,
+.load-more:focus-visible {
+  background-color: var(--color-accent-hover);
+}
+
 /* ---------- Loader (css-loader) ---------- */
 
 .loader {
   display: none;
   width: 48px;
   height: 48px;
-  margin: 0 auto 32px;
+  margin: 32px auto 0;
   border: 5px solid #e0e7ff;
   border-bottom-color: var(--color-accent);
   border-radius: 50%;

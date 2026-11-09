@@ -8,9 +8,15 @@ import {
   clearGallery,
   showLoader,
   hideLoader,
+  showLoadMoreButton,
+  hideLoadMoreButton,
 } from './js/render-functions.js';
 
 const form = document.querySelector('.form');
+const loadMoreBtn = document.querySelector('.load-more');
+
+let query = '';
+let page = 1;
 
 function showError(message) {
   iziToast.error({
@@ -25,19 +31,23 @@ function showError(message) {
 async function onSearch(event) {
   event.preventDefault();
 
-  const query = event.currentTarget.elements['search-text'].value.trim();
+  const value = event.currentTarget.elements['search-text'].value.trim();
 
-  if (!query) {
+  if (!value) {
     showError('Please enter a search query!');
     return;
   }
 
+  query = value;
+  page = 1;
+
   clearGallery();
+  hideLoadMoreButton();
   showLoader();
   form.reset();
 
   try {
-    const data = await getImagesByQuery(query);
+    const data = await getImagesByQuery(query, page);
 
     if (data.hits.length === 0) {
       showError(
@@ -47,6 +57,7 @@ async function onSearch(event) {
     }
 
     createGallery(data.hits);
+    showLoadMoreButton();
   } catch {
     showError('Something went wrong. Please try again later.');
   } finally {
@@ -54,4 +65,25 @@ async function onSearch(event) {
   }
 }
 
+async function onLoadMore() {
+  page += 1;
+
+  hideLoadMoreButton();
+  showLoader();
+
+  try {
+    const data = await getImagesByQuery(query, page);
+
+    createGallery(data.hits);
+    showLoadMoreButton();
+  } catch {
+    page -= 1;
+    showLoadMoreButton();
+    showError('Something went wrong. Please try again later.');
+  } finally {
+    hideLoader();
+  }
+}
+
 form.addEventListener('submit', onSearch);
+loadMoreBtn.addEventListener('click', onLoadMore);
