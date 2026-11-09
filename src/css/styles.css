@@ -1,3 +1,12 @@
+:root {
+  --color-text: #2e2f42;
+  --color-muted: #808080;
+  --color-accent: #4e75ff;
+  --color-accent-hover: #6c8cff;
+  --color-white: #fff;
+  --color-error: #ef4040;
+}
+
 *,
 *::before,
 *::after {
@@ -6,5 +15,197 @@
 
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-white);
+  letter-spacing: 0.04em;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 36px 16px;
+}
+
+/* ---------- Form ---------- */
+
+.form {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.form label {
+  display: block;
+}
+
+.form input {
+  width: 272px;
+  height: 40px;
+  padding: 8px 16px;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-muted);
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 250ms ease;
+}
+
+.form input::placeholder {
+  color: var(--color-muted);
+}
+
+.form input:hover {
+  border-color: #000;
+}
+
+.form input:focus {
+  border-color: var(--color-accent);
+}
+
+.form button {
+  min-width: 91px;
+  height: 40px;
+  padding: 8px 16px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--color-white);
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 250ms ease;
+}
+
+.form button:hover,
+.form button:focus-visible {
+  background-color: var(--color-accent-hover);
+}
+
+/* ---------- Gallery ---------- */
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gallery-item {
+  width: 360px;
+  border: 1px solid var(--color-muted);
+  transition: box-shadow 250ms ease;
+}
+
+.gallery-item:hover {
+  box-shadow: 0 4px 12px rgba(46, 47, 66, 0.2);
+}
+
+.gallery-link {
+  display: block;
+}
+
+.gallery-image {
+  width: 100%;
+  height: 152px;
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  justify-content: space-around;
+  height: 48px;
+  margin: 0;
+  padding: 4px 8px;
+  list-style: none;
+  font-size: 12px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-label {
+  font-weight: 600;
+  line-height: 1.33;
+}
+
+.info-value {
+  font-weight: 400;
+  line-height: 2;
+}
+
+/* ---------- Loader (css-loader) ---------- */
+
+.loader {
+  display: none;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 32px;
+  border: 5px solid #e0e7ff;
+  border-bottom-color: var(--color-accent);
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+}
+
+.loader.is-visible {
+  display: block;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- iziToast (error) ---------- */
+
+.iziToast.toast-error {
+  max-width: 432px;
+  padding: 20px;
+  background-color: var(--color-error);
+  border-bottom: 2px solid #ffbebe;
+  border-radius: 4px;
+}
+
+.iziToast.toast-error::after {
+  display: none;
+}
+
+.iziToast.toast-error > .iziToast-body .iziToast-message {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  color: #fafafb;
+}
+
+.iziToast.toast-error > .iziToast-close {
+  background: url('../img/x-close.svg') no-repeat center / 16px;
+  opacity: 1;
+}
+
+.iziToast.toast-error .iziToast-progressbar div {
+  background-color: #b51b1b;
 }
