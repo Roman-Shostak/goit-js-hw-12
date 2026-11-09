@@ -22,7 +22,7 @@ function showError(message) {
   });
 }
 
-function onSearch(event) {
+async function onSearch(event) {
   event.preventDefault();
 
   const query = event.currentTarget.elements['search-text'].value.trim();
@@ -34,26 +34,24 @@ function onSearch(event) {
 
   clearGallery();
   showLoader();
-
-  getImagesByQuery(query)
-    .then(data => {
-      if (data.hits.length === 0) {
-        showError(
-          'Sorry, there are no images matching your search query. Please try again!'
-        );
-        return;
-      }
-
-      createGallery(data.hits);
-    })
-    .catch(() => {
-      showError('Something went wrong. Please try again later.');
-    })
-    .finally(() => {
-      hideLoader();
-    });
-
   form.reset();
+
+  try {
+    const data = await getImagesByQuery(query);
+
+    if (data.hits.length === 0) {
+      showError(
+        'Sorry, there are no images matching your search query. Please try again!'
+      );
+      return;
+    }
+
+    createGallery(data.hits);
+  } catch {
+    showError('Something went wrong. Please try again later.');
+  } finally {
+    hideLoader();
+  }
 }
 
 form.addEventListener('submit', onSearch);
