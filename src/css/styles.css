@@ -5,6 +5,7 @@
   --color-accent-hover: #6c8cff;
   --color-white: #fff;
   --color-error: #ef4040;
+  --color-info: #09f;
 }
 
 *,
@@ -238,4 +239,38 @@ img {
 
 .iziToast.toast-error .iziToast-progressbar div {
   background-color: #b51b1b;
+}
+
+/* ---------- iziToast (info) ---------- */
+
+.iziToast.toast-info {
+  max-width: 432px;
+  padding: 20px;
+  background-color: var(--color-info);
+  border-radius: 4px;
+}
+
+.iziToast.toast-info::after {
+  display: none;
+}
+
+.iziToast.toast-info > .iziToast-body .iziToast-message {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  color: #fafafb;
+}
+
+.iziToast.toast-info > .iziToast-body .iziToast-icon {
+  color: #fafafb;
+}
+
+.iziToast.toast-info > .iziToast-close {
+  background: url('../img/x-close.svg') no-repeat center / 16px;
+  opacity: 1;
+}
+
+.iziToast.toast-info .iziToast-progressbar div {
+  background-color: #0071bd;
 }

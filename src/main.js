@@ -2,7 +2,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 import errorIcon from './img/x-octagon.svg';
-import { getImagesByQuery } from './js/pixabay-api.js';
+import { getImagesByQuery, PER_PAGE } from './js/pixabay-api.js';
 import {
   createGallery,
   clearGallery,
@@ -17,6 +17,7 @@ const loadMoreBtn = document.querySelector('.load-more');
 
 let query = '';
 let page = 1;
+let totalPages = 0;
 
 function showError(message) {
   iziToast.error({
@@ -26,6 +27,19 @@ function showError(message) {
     class: 'toast-error',
     timeout: 4000,
   });
+}
+
+function showInfo(message) {
+  iziToast.info({
+    message,
+    position: 'topRight',
+    class: 'toast-info',
+    timeout: 4000,
+  });
+}
+
+function showEndOfResults() {
+  showInfo("We're sorry, but you've reached the end of search results.");
 }
 
 async function onSearch(event) {
@@ -40,6 +54,7 @@ async function onSearch(event) {
 
   query = value;
   page = 1;
+  totalPages = 0;
 
   clearGallery();
   hideLoadMoreButton();
@@ -57,7 +72,13 @@ async function onSearch(event) {
     }
 
     createGallery(data.hits);
-    showLoadMoreButton();
+    totalPages = Math.ceil(data.totalHits / PER_PAGE);
+
+    if (page < totalPages) {
+      showLoadMoreButton();
+    } else {
+      showEndOfResults();
+    }
   } catch {
     showError('Something went wrong. Please try again later.');
   } finally {
@@ -75,7 +96,12 @@ async function onLoadMore() {
     const data = await getImagesByQuery(query, page);
 
     createGallery(data.hits);
-    showLoadMoreButton();
+
+    if (page < totalPages) {
+      showLoadMoreButton();
+    } else {
+      showEndOfResults();
+    }
   } catch {
     page -= 1;
     showLoadMoreButton();
